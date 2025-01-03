@@ -1,6 +1,6 @@
-name: hello
+name: caldav
 functions:
   helloWorld:
-    path: hello.ts:helloWorld
+    path: caldav.ts:helloWorld
     command:
       name: "Say hello"
