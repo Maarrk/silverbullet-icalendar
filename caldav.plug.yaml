@@ -3,6 +3,6 @@ requiredPermissions:
   - fetch
 functions:
   queryIcs:
-    path: ./caldav.ts:queryIcs
+    path: ./caldav.ts:queryEvents
     events:
-      - query:cal-ics
+      - query:cal-events

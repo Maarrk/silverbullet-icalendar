@@ -17,7 +17,7 @@
     ]
   },
   "imports": {
-    "@silverbulletmd/silverbullet": "jsr:@silverbulletmd/silverbullet@^0.9.0",
+    "@silverbulletmd/silverbullet": "jsr:@silverbulletmd/silverbullet@^0.10.1",
     "tsdav": "npm:tsdav@2.1.3",
     "ts-ics": "npm:ts-ics@1.6.5",
     "@js-temporal/polyfill": "https://esm.sh/@js-temporal/polyfill@0.4.4"
