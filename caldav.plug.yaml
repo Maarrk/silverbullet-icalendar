@@ -1,6 +1,8 @@
 name: caldav
+requiredPermissions:
+  - fetch
 functions:
-  helloWorld:
-    path: caldav.ts:helloWorld
-    command:
-      name: "Say hello"
+  queryIcs:
+    path: ./caldav.ts:queryIcs
+    events:
+      - query:cal-ics
