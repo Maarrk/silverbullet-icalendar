@@ -28,7 +28,7 @@ export async function queryEvents(
     return [];
   }
 
-  let events: Event[] = calendarParsed.events.map((ics) => {
+  const events: Event[] = calendarParsed.events.map((ics) => {
     return {
       summary: ics.summary,
       description: ics.description,
@@ -43,9 +43,7 @@ export async function queryEvents(
     };
   });
 
-  // FIXME: Fails whenever any filters are applied, but same code works for github plug
-  events = applyQuery(query, events);
-  return events;
+  return applyQuery(query, events, {}, {});
 }
 
 // Copied from @silverbulletmd/silverbullet/lib/dates.ts which is not exported in the package
@@ -57,20 +55,4 @@ export function localDateString(d: Date): string {
     ":" + String(d.getMinutes()).padStart(2, "0") +
     ":" + String(d.getSeconds()).padStart(2, "0") +
     "." + String(d.getMilliseconds()).padStart(3, "0");
-}
-
-// didn't help
-function flattenObject(obj: any, prefix = ""): any {
-  let result: any = {};
-  for (let [key, value] of Object.entries(obj)) {
-    if (prefix) {
-      key = prefix + "_" + key;
-    }
-    if (value && typeof value === "object") {
-      result = { ...result, ...flattenObject(value, key) };
-    } else {
-      result[key] = value;
-    }
-  }
-  return result;
 }
