@@ -18,7 +18,6 @@ export async function queryEvents(
 ): Promise<any[]> {
   const secrets = await readYamlPage("SECRETS");
   const icsUrl = secrets.icsUrl;
-  // TODO: Loop over multiple sources (like CalDAV, .ics URLs) and assign calendar name based on X-WR-CALNAME
   const result = await fetch(icsUrl);
   const icsData = await result.text();
   const calendarParsed: VCalendar = parseIcsCalendar(icsData);
