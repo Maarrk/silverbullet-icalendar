@@ -1,6 +1,5 @@
-import { editor } from "@silverbulletmd/silverbullet/syscalls";
+import { editor, system } from "@silverbulletmd/silverbullet/syscalls";
 import { QueryProviderEvent } from "@silverbulletmd/silverbullet/types";
-import { readYamlPage } from "@silverbulletmd/silverbullet/lib/yaml_page";
 import { applyQuery } from "@silverbulletmd/silverbullet/lib/query";
 import { parseIcsCalendar, type VCalendar } from "ts-ics";
 
@@ -13,36 +12,90 @@ interface Event {
   end: string | undefined;
 }
 
+interface Source {
+  url: string;
+  name: string | undefined;
+}
+
 export async function queryEvents(
   { query }: QueryProviderEvent,
 ): Promise<any[]> {
-  const secrets = await readYamlPage("SECRETS");
-  const icsUrl = secrets.icsUrl;
-  const result = await fetch(icsUrl);
-  const icsData = await result.text();
-  const calendarParsed: VCalendar = parseIcsCalendar(icsData);
+  const events: Event[] = [];
 
-  if (calendarParsed.events === undefined) {
-    editor.flashNotification("Did not parse events from iCalendar");
+  const sources = await getSources();
+  for (const source of sources) {
+    const identifier = (source.name === undefined || source.name === "")
+      ? source.url
+      : source.name;
+
+    try {
+      const result = await fetch(source.url);
+      const icsData = await result.text();
+
+      const calendarParsed: VCalendar = parseIcsCalendar(icsData);
+      if (calendarParsed.events === undefined) {
+        throw new Error("Didn't parse events from ics data");
+      }
+
+      console.log(JSON.stringify(calendarParsed.events[0], null, 2));
+
+      for (const icsEvent of calendarParsed.events) {
+        events.push({
+          summary: icsEvent.summary,
+          description: icsEvent.description,
+          // Mimic properties of pages
+          created: icsEvent.created
+            ? localDateString(icsEvent.created.date)
+            : undefined,
+          lastModified: icsEvent.lastModified
+            ? localDateString(icsEvent.lastModified.date)
+            : undefined,
+          // Consistent with formats above
+          start: localDateString(icsEvent.start.date),
+          end: icsEvent.end ? localDateString(icsEvent.end.date) : undefined,
+        });
+      }
+    } catch (err) {
+      console.error(
+        `Getting events from ${identifier} failed with:`,
+        err,
+      );
+    }
+  }
+  return applyQuery(query, events, {}, {});
+}
+
+async function getSources(): Promise<Source[]> {
+  const config = await system.getSpaceConfig("icalendar", {});
+
+  if (!config.sources || !Array.isArray(config.sources)) {
+    console.error("Configure icalendar.sources");
     return [];
   }
 
-  const events: Event[] = calendarParsed.events.map((ics) => {
-    return {
-      summary: ics.summary,
-      description: ics.description,
-      // Mimic properties of pages
-      created: ics.created ? localDateString(ics.created.date) : undefined,
-      lastModified: ics.lastModified
-        ? localDateString(ics.lastModified.date)
-        : undefined,
-      // Consistent with formats above
-      start: localDateString(ics.start.date),
-      end: ics.end ? localDateString(ics.end.date) : undefined,
-    };
-  });
+  const sources = config.sources;
 
-  return applyQuery(query, events, {}, {});
+  if (sources.length === 0) {
+    console.error("Empty icalendar.sources");
+    return [];
+  }
+
+  const validated: Source[] = [];
+  for (const src of sources) {
+    if (typeof src.url !== "string") {
+      console.error(
+        `Invalid iCalendar source`,
+        src,
+      );
+      continue;
+    }
+    validated.push({
+      url: src.url,
+      name: (typeof src.name === "string") ? src.name : undefined,
+    });
+  }
+
+  return validated;
 }
 
 // Copied from @silverbulletmd/silverbullet/lib/dates.ts which is not exported in the package

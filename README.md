@@ -23,7 +23,7 @@ icalendar:
   sources:
   - url: https://example.com/calendar.ics
     # override calName for events from this source, otherwise X-WR-CALNAME is used
-    calName: Example calendar
+    name: Example calendar
 ```
 
 ## Usage
@@ -44,7 +44,6 @@ select summary, description
 
 ## Roadmap
 
-- Load multiple sources from Space Config, instead of SECRETS
 - Decide which properties should be exposed:
   - Location
   - Color?

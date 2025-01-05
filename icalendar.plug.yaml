@@ -6,3 +6,21 @@ functions:
     path: ./icalendar.ts:queryEvents
     events:
       - query:ical-event
+config:
+  schema.config.properties.icalendar:
+    type: object
+    required:
+      - sources
+    properties:
+      sources:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          required:
+            - url
+          properties:
+            url:
+              type: string
+            name:
+              type: string

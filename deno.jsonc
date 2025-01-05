@@ -1,7 +1,7 @@
 {
   "tasks": {
-    "build": "silverbullet plug:compile -c deno.jsonc caldav.plug.yaml",
-    "watch": "silverbullet plug:compile -c deno.jsonc caldav.plug.yaml -w"
+    "build": "silverbullet plug:compile -c deno.jsonc icalendar.plug.yaml",
+    "watch": "silverbullet plug:compile -c deno.jsonc icalendar.plug.yaml -w"
   },
   "lint": {
     "rules": {
