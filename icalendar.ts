@@ -1,7 +1,9 @@
-import { system } from "@silverbulletmd/silverbullet/syscalls";
+import { editor, system } from "@silverbulletmd/silverbullet/syscalls";
 import { QueryProviderEvent } from "@silverbulletmd/silverbullet/types";
 import { applyQuery } from "@silverbulletmd/silverbullet/lib/query";
 import { parseIcsCalendar, type VCalendar } from "ts-ics";
+
+const VERSION = "0.1.0";
 
 // Try to match SilverBullet properties where possible.
 // Timestamps should be strings formatted with `localDateString`
@@ -118,4 +120,8 @@ export function localDateString(d: Date): string {
     ":" + String(d.getMinutes()).padStart(2, "0") +
     ":" + String(d.getSeconds()).padStart(2, "0") +
     "." + String(d.getMilliseconds()).padStart(3, "0");
+}
+
+export async function showVersion() {
+  await editor.flashNotification(`iCalendar Plug ${VERSION}`);
 }

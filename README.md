@@ -56,7 +56,6 @@ select summary, description
 
 ## Roadmap
 
-- Command for plug version with lower priority (cf. `silverbullet-grep`)
 - Cache the calendar according to `REFRESH-INTERVAL` or `X-PUBLISHED-TTL`, command for manual update
 - More query sources:
   - `ical-todo` for `VTODO` components

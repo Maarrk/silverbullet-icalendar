@@ -2,6 +2,11 @@ name: icalendar
 requiredPermissions:
   - fetch
 functions:
+  showVersion:
+    path: ./icalendar.ts:showVersion
+    command:
+      name: "iCalendar: Version"
+      priority: -2
   queryEvents:
     path: ./icalendar.ts:queryEvents
     events:
