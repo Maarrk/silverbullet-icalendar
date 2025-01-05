@@ -67,6 +67,7 @@ select summary, description
 
 ## Contributing
 
+Pull requests with short instructions for various calendar services are welcome.
 If you find bugs, report them on the [issue tracker on GitHub](https://github.com/Maarrk/silverbullet-icalendar/issues).
 
 ### Building from source
