@@ -15,7 +15,7 @@ Then run the {[Plugs: Update]} command and off you go!
 
 ### Configuration
 
-This plug can be configured with [Space Config](https://silverbullet.md/Space%20Config), these are the default values and their usage:
+This plug is configured with [Space Config](https://silverbullet.md/Space%20Config), short example:
 
 ```yaml
 icalendar:
