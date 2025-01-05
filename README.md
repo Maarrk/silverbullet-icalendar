@@ -37,7 +37,9 @@ Instructions to get the source URL for some calendar services:
   - Calendar settings (pencil icon to the right of the name)
   - Settings and Sharing, scroll down to Integrate calendar
   - Copy the link for Secret address in iCal format
-  
+
+![Screenshot of getting the URL from Nextcloud Calendar](./url-nextcloud.png)
+
 ## Usage
 
 The plug provides the query source `ical-event`, which corresponds to `VEVENT` object
