@@ -22,10 +22,22 @@ icalendar:
   # where to get the iCalendar data from
   sources:
   - url: https://example.com/calendar.ics
-    # override calName for events from this source, otherwise X-WR-CALNAME is used
+    # this will be set as sourceName on all results from this source
     name: Example calendar
 ```
 
+Instructions to get the source URL for some calendar services:
+
+- Nextcloud ([source](https://help.nextcloud.com/t/how-to-access-the-calendar-ics-file-via-url/7880)):
+  - Edit calendar (pencil icon to the right of the name)
+  - Share calendar link
+  - Details (three dots icon), copy subscription link
+  - Verify that the link ends with `?export`
+- Google Calendar ([source](https://support.google.com/calendar/answer/37648?hl=en#zippy=%2Cget-your-calendar-view-only)): 
+  - Calendar settings (pencil icon to the right of the name)
+  - Settings and Sharing, scroll down to Integrate calendar
+  - Copy the link for Secret address in iCal format
+  
 ## Usage
 
 The plug provides the query source `ical-event`, which corresponds to `VEVENT` object
@@ -44,11 +56,6 @@ select summary, description
 
 ## Roadmap
 
-- Add instructions for popular services:
-  - Nextcloud
-  - Google Calendar
-- Write config schema
-- Add `calName` property to event object
 - Command for plug version with lower priority (cf. `silverbullet-grep`)
 - Cache the calendar according to `REFRESH-INTERVAL` or `X-PUBLISHED-TTL`, command for manual update
 - More query sources:
