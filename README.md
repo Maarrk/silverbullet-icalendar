@@ -5,10 +5,10 @@ It reads external [iCalendar](https://en.wikipedia.org/wiki/ICalendar) data, als
 
 ## Installation
 
-Open your `PLUGS` note in SilverBullet and add this plug to the list:
+Run the {[Plugs: Add]} command in SilverBullet and add paste this URI into the dialog box:
 
-```yaml
-- ghr:Maarrk/silverbullet-icalendar
+```
+ghr:Maarrk/silverbullet-icalendar
 ```
 
 Then run the {[Plugs: Update]} command and off you go!
@@ -29,8 +29,6 @@ icalendar:
 ## Usage
 
 The plug provides the query source `ical-event`, which corresponds to `VEVENT` object
-
-<!-- TODO: Describe properties in detail -->
 
 ### Examples
 
@@ -60,6 +58,7 @@ select summary, description
 - More query sources:
   - `ical-todo` for `VTODO` components
   - `ical-calendar` showing information about configured calendars
+- Describe the properties of query results
 - Support `file://` URL scheme (use an external script or filesystem instead of authentication on CalDAV)
 
 ## Contributing

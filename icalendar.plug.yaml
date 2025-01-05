@@ -1,0 +1,8 @@
+name: icalendar
+requiredPermissions:
+  - fetch
+functions:
+  queryEvents:
+    path: ./icalendar.ts:queryEvents
+    events:
+      - query:ical-event

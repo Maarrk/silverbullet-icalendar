@@ -1,8 +1,0 @@
-name: caldav
-requiredPermissions:
-  - fetch
-functions:
-  queryIcs:
-    path: ./caldav.ts:queryEvents
-    events:
-      - query:cal-events
