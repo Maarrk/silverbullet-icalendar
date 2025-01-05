@@ -44,9 +44,6 @@ select summary, description
 
 ## Roadmap
 
-- Decide which properties should be exposed:
-  - Location
-  - Color?
 - Add instructions for popular services:
   - Nextcloud
   - Google Calendar

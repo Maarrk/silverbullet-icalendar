@@ -1,20 +1,29 @@
-import { editor, system } from "@silverbulletmd/silverbullet/syscalls";
+import { system } from "@silverbulletmd/silverbullet/syscalls";
 import { QueryProviderEvent } from "@silverbulletmd/silverbullet/types";
 import { applyQuery } from "@silverbulletmd/silverbullet/lib/query";
 import { parseIcsCalendar, type VCalendar } from "ts-ics";
 
+// Try to match SilverBullet properties where possible.
+// Timestamps should be strings formatted with `localDateString`
 interface Event {
+  // Typically available in calendar apps
   summary: string | undefined;
   description: string | undefined;
+  location: string | undefined;
+
+  // Same as SilverBullet pages
   created: string | undefined;
   lastModified: string | undefined;
+  // Keep consistent with dates above
   start: string | undefined;
   end: string | undefined;
+
+  sourceName: string | undefined;
 }
 
 interface Source {
-  url: string;
-  name: string | undefined;
+  url: string; // Should be an .ics file
+  name: string | undefined; // Optional name that will be assigned to events
 }
 
 export async function queryEvents(
@@ -37,22 +46,23 @@ export async function queryEvents(
         throw new Error("Didn't parse events from ics data");
       }
 
-      console.log(JSON.stringify(calendarParsed.events[0], null, 2));
-
+      // The order here is the default order of columns without the select clause
       for (const icsEvent of calendarParsed.events) {
         events.push({
           summary: icsEvent.summary,
+          sourceName: source.name,
+
+          location: icsEvent.location,
           description: icsEvent.description,
-          // Mimic properties of pages
+
+          start: localDateString(icsEvent.start.date),
+          end: icsEvent.end ? localDateString(icsEvent.end.date) : undefined,
           created: icsEvent.created
             ? localDateString(icsEvent.created.date)
             : undefined,
           lastModified: icsEvent.lastModified
             ? localDateString(icsEvent.lastModified.date)
             : undefined,
-          // Consistent with formats above
-          start: localDateString(icsEvent.start.date),
-          end: icsEvent.end ? localDateString(icsEvent.end.date) : undefined,
         });
       }
     } catch (err) {
@@ -69,6 +79,7 @@ async function getSources(): Promise<Source[]> {
   const config = await system.getSpaceConfig("icalendar", {});
 
   if (!config.sources || !Array.isArray(config.sources)) {
+    // The queries are running on server, probably because of that, can't use editor.flashNotification
     console.error("Configure icalendar.sources");
     return [];
   }
