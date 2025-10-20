@@ -1,3 +1,7 @@
+# ⚠️ Unmaintained for Silverbullet v2
+
+Consider Alexandre Nicolaie's updated fork [xunleii/silverbullet-icalendar](https://github.com/xunleii/silverbullet-icalendar) instead
+
 # SilverBullet iCalendar Plug
 
 `silverbullet-icalendar` is a [Plug](https://silverbullet.md/Plugs) for [SilverBullet](https://silverbullet.md/) which I made for my girlfriend.
